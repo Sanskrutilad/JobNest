@@ -19,23 +19,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.jobnest.Data.User
+import com.example.jobnest.Data.Job
 import com.example.jobnest.Data.jobViewModel
 
-
 @Composable
-fun RegisterScreen(navController: NavController, viewModel: jobViewModel) {
+fun JobPostScreen(navController: NavController, viewModel: jobViewModel) {
     val context = LocalContext.current
+    var jobTitle by remember { mutableStateOf("") }
     var organizationName by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var jobCategory by remember { mutableStateOf("") }
+    var skillsRequired by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -44,37 +40,32 @@ fun RegisterScreen(navController: NavController, viewModel: jobViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Register", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text("Post a Job", fontSize = 24.sp, fontWeight = FontWeight.Bold)
 
+        OutlinedTextField(value = jobTitle, onValueChange = { jobTitle = it }, label = { Text("Job Title") })
         OutlinedTextField(value = organizationName, onValueChange = { organizationName = it }, label = { Text("Organization Name") })
-        OutlinedTextField(value = address, onValueChange = { address = it }, label = { Text("Address") })
-        OutlinedTextField(value = firstName, onValueChange = { firstName = it }, label = { Text("First Name") })
-        OutlinedTextField(value = lastName, onValueChange = { lastName = it }, label = { Text("Last Name") })
-        OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
-        OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") }, visualTransformation = PasswordVisualTransformation())
+        OutlinedTextField(value = jobCategory, onValueChange = { jobCategory = it }, label = { Text("Job Category") })
+        OutlinedTextField(value = skillsRequired, onValueChange = { skillsRequired = it }, label = { Text("Skills Required") })
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            if (organizationName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                val user = User(
+            if (jobTitle.isNotEmpty() && organizationName.isNotEmpty()) {
+                val job = Job(
+                    jobTitle = jobTitle,
                     organizationName = organizationName,
-                    address = address,
-                    firstName = firstName,
-                    lastName = lastName,
-                    email = email,
-                    password = password
+                    jobCategory = jobCategory,
+                    skillsRequired = skillsRequired,
+                    status = "Applied"
                 )
-                viewModel.registerUser(user)
-                Toast.makeText(context, "Registration Successful!", Toast.LENGTH_SHORT).show()
-                navController.navigate("login")
+                viewModel.addJob(job)
+                Toast.makeText(context, "Job Posted Successfully!", Toast.LENGTH_SHORT).show()
+                navController.navigate("job_list")
             } else {
                 Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
         }) {
-            Text("Register")
+            Text("Post Job")
         }
     }
 }
-
-
