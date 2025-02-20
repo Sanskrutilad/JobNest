@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.jobnest.Data.viewmodel.AuthViewModel
+import com.example.jobnest.Data.viewmodel.AuthViewmodel
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: AuthViewModel = hiltViewModel()) {
+fun LoginScreen(navController: NavController, viewModel: AuthViewmodel = hiltViewModel()) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var userType by remember { mutableStateOf("Candidate") }

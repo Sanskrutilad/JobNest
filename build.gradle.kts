@@ -4,3 +4,4 @@ plugins {
     alias(libs.plugins.google.dagger.hilt) apply false
     alias(libs.plugins.androidx.room) apply false
 }
+

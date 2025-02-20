@@ -15,12 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.jobnest.Screens.JobDetailsScreen
 import com.example.jobnest.Screens.JobListScreen
 import com.example.jobnest.Screens.JobPostScreen
 import com.example.jobnest.Screens.LoginScreen
 import com.example.jobnest.Screens.RegisterScreen
 import com.example.jobnest.ui.theme.JobNestTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,13 @@ fun Navigation() {
         composable("login") { LoginScreen(navController) }
         composable("job_list") { JobListScreen(navController) }
         composable("post_job") { JobPostScreen(navController) }
+        composable("job_details/{jobId}") { backStackEntry ->
+            val jobId = backStackEntry.arguments?.getString("jobId")?.toIntOrNull()
+            jobId?.let {
+                JobDetailsScreen(navController, it)
+            }
+        }
+
     }
 }
 

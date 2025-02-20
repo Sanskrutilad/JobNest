@@ -32,7 +32,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.graphics.Color
 
-
 @Composable
 fun JobListScreen(navController: NavController, viewModel: JobViewModel = hiltViewModel()) {
     val jobs by viewModel.jobs.observeAsState(emptyList())
@@ -49,7 +48,7 @@ fun JobListScreen(navController: NavController, viewModel: JobViewModel = hiltVi
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
-                        .clickable { /* Navigate to job details */ },
+                        .clickable { navController.navigate("job_details/${job.id}") },
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
